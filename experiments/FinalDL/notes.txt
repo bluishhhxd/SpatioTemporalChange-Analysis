@@ -1,0 +1,92 @@
+🧾 Analysis: Dice Loss
+
+
+1. Overall Performance
+The model trained using Dice Loss achieves:
+Accuracy: ~0.75
+IoU: ~0.24
+F1 Score: ~0.27
+
+Compared to previous loss functions:
+CE → F1 ~0.53
+WCE → F1 ~0.63
+FL → F1 ~0.67
+WFL → F1 ~0.67
+Dice → F1 ~0.27 (significant drop)
+
+This indicates that Dice Loss performs poorly in terms of overall segmentation quality in this setting.
+
+
+2. Class-wise Performance
+The per-class results show a complete collapse to a single class:
+Class 14: Acc=1.0000
+All other classes: Acc=0.0000
+
+This indicates that the model predicts only Class 14 across the entire dataset.
+
+
+3. Effect of Dice Loss
+Dice Loss is defined as:
+Dice=(2×intersection)/(union)
+
+and the loss is:
+Loss=1-Dice
+
+Unlike pixel-wise losses, Dice operates on region-level overlap rather than individual pixel probabilities.
+
+
+4. Observed Learning Behavior
+Dice Loss leads to the following behavior:
+Optimization is dominated by classes occupying large spatial regions
+Large classes contribute disproportionately to the overlap term
+Small or rare classes contribute very little to the loss
+
+As a result:
+The model converges to predicting the largest spatial class (Class 14)
+All other classes are ignored during training
+5. Failure Mode
+
+Dice Loss exhibits a clear failure mode in this multi-class setting:
+Collapse to a single dominant spatial class
+
+This occurs because:
+Maximizing overlap for the dominant class minimizes the loss effectively
+Missing smaller classes does not significantly penalize the objective
+6. Comparison with Other Loss Functions
+
+Compared to Cross-Entropy:
+Produces a similar collapse behavior, but more extreme
+Does not penalize misclassification at the pixel level
+
+Compared to Weighted Cross-Entropy:
+Fails to recover rare classes
+Ignores class imbalance entirely
+
+Compared to Focal Loss:
+Does not focus on difficult examples
+Ignores hard-to-classify regions
+
+Compared to Weighted Focal Loss:
+Does not exhibit over-suppression, but instead collapses to a dominant region
+
+
+7. Key Insight
+The results demonstrate:
+Dice Loss is not inherently suitable for multi-class long-tail imbalance, as it prioritizes maximizing overlap for dominant spatial regions rather than learning minority classes.
+
+
+8. Limitations
+Complete collapse to a single class
+No learning of minority or intermediate classes
+Lack of sensitivity to class frequency
+Weak gradient signal for small regions
+
+
+9. Conclusion
+Dice Loss performs poorly in this semantic change detection setting:
+Fails to learn multiple classes
+Strongly biased toward the largest spatial region
+Produces low IoU and F1 scores
+
+This suggests that:
+Dice Loss alone is insufficient for multi-class imbalanced problems and requires modifications such as class weighting (e.g., Generalized Dice Loss).

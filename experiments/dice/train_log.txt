@@ -1,0 +1,45 @@
+Training Log - dice
+
+[12:07:50] Epoch 1 | Loss: 0.7859 | Acc: 0.4924 | IoU: 0.1907 | F1: 0.2475
+[12:10:41] Epoch 2 | Loss: 0.8318 | Acc: 0.7558 | IoU: 0.4302 | F1: 0.5050
+[12:13:30] Epoch 3 | Loss: 0.7947 | Acc: 0.7131 | IoU: 0.4392 | F1: 0.5390
+[12:16:20] Epoch 4 | Loss: 0.8156 | Acc: 0.8082 | IoU: 0.4150 | F1: 0.4849
+[12:19:10] Epoch 5 | Loss: 0.8158 | Acc: 0.7491 | IoU: 0.4381 | F1: 0.5240
+
+Per-class Accuracy:
+Class 0: Acc=0.0000, Count=0
+Class 1: Acc=0.0000, Count=0
+Class 2: Acc=0.0000, Count=0
+Class 3: Acc=0.0000, Count=0
+Class 4: Acc=0.0000, Count=0
+Class 5: Acc=0.0000, Count=0
+Class 6: Acc=0.0000, Count=0
+Class 7: Acc=0.7193, Count=684609536
+Class 8: Acc=0.0000, Count=969803
+Class 9: Acc=0.0000, Count=0
+Class 10: Acc=0.0000, Count=0
+Class 11: Acc=0.0000, Count=0
+Class 12: Acc=0.0000, Count=0
+Class 13: Acc=0.0000, Count=37574544
+Class 14: Acc=0.7404, Count=3497851136
+Class 15: Acc=0.0000, Count=1452771
+Class 16: Acc=0.0000, Count=2537923
+Class 17: Acc=0.0000, Count=7703807
+Class 18: Acc=0.0000, Count=0
+Class 19: Acc=0.0000, Count=717106
+Class 20: Acc=0.0000, Count=26824
+Class 21: Acc=0.8524, Count=547639872
+Class 22: Acc=0.0000, Count=0
+Class 23: Acc=0.0000, Count=0
+Class 24: Acc=0.0000, Count=0
+Class 25: Acc=0.0000, Count=0
+Class 26: Acc=0.0000, Count=0
+Class 27: Acc=0.0000, Count=0
+Class 28: Acc=0.0000, Count=0
+Class 29: Acc=0.0000, Count=0
+Class 30: Acc=0.0000, Count=0
+Class 31: Acc=0.0000, Count=18554
+Class 32: Acc=0.0000, Count=368088
+Class 33: Acc=0.0000, Count=0
+Class 34: Acc=0.0000, Count=100021
+Class 35: Acc=0.0000, Count=34708936

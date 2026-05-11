@@ -1,0 +1,97 @@
+Cross Entropy Loss (CE) — Notes
+
+1. Objective
+Cross Entropy (CE) is used as the baseline loss for multi-class semantic segmentation.
+It measures the discrepancy between predicted class probabilities and ground-truth labels.
+
+LCE=−i∑y(i)log(p(i))
+
+Where:
+
+y(i)=ground truth (one-hot)
+p(i)=predicted probability for class i
+
+
+2. Role in This Task
+In semantic change detection, CE treats all pixels equally, regardless of class frequency.
+No mechanism to handle class imbalance.
+
+
+3. Training Behavior (Observed)
+Fast convergence in early epochs
+Stable optimization
+High overall accuracy achieved
+IoU and F1 improve initially but fluctuate later
+
+Example (observed):
+Acc ≈ 0.66–0.85
+IoU ≈ 0.30–0.45
+F1 ≈ 0.37–0.53
+
+
+4. Per-Class Performance
+High accuracy for dominant classes (e.g., class 7, class 14)
+Very low or zero accuracy for most minority classes
+Some moderately frequent classes partially learned (e.g., class 21 ≈ 0.10)
+
+
+5. Key Observation
+CE strongly biases learning toward frequent classes.
+
+
+6. Why This Happens
+
+Loss contribution is proportional to class frequency:
+Contribution(i)∝count(i)
+	​
+Thus:
+Frequent classes dominate gradient updates
+Rare classes contribute negligibly
+Model minimizes loss by focusing on dominant classes
+
+
+7. Effect on Model Behavior
+
+The model learns:
+Predict dominant transitions → minimize loss efficiently
+Ignore rare transitions → minimal penalty
+
+This results in:
+High overall accuracy
+Poor representation of rare classes
+Biased predictions
+
+
+8. Limitation
+CE does not account for class imbalance.
+
+Specifically:
+
+No weighting mechanism
+No emphasis on difficult samples
+No control over class-wise contribution
+
+
+9. Misleading Metrics
+
+High accuracy does not imply good performance:
+Accuracy is dominated by frequent classes.
+
+Thus:
+CE can appear strong in global metrics
+But fails in per-class evaluation
+
+
+10. Conclusion
+CE provides a stable baseline
+Performs well for dominant classes
+Fails to learn minority classes
+CE is insufficient for highly imbalanced semantic change detection tasks.
+
+
+11. Motivation for Improvement
+
+The limitations of CE motivate the need for:
+Class reweighting (WCE)
+Sample difficulty-based learning (Focal Loss)
+CE treats all samples equally, regardless of frequency or difficulty.

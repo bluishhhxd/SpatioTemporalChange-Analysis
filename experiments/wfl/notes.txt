@@ -1,0 +1,80 @@
+📝 Weighted Focal Loss — Analysis Notes
+1. Objective
+
+Weighted Focal Loss combines class weighting and focal modulation:
+
+WFL=−αt((1−p(t))**γ)log(p(t))
+
+Where:
+αt=class weight
+γ=focusing parameter
+
+
+2. Motivation
+To jointly address:
+Class imbalance (via α)  
+Sample difficulty (via γ)
+
+This aims to improve learning for both underrepresented classes and hard-to-classify samples.
+
+
+3. Observed Performance
+Stable convergence during training
+Strong global performance
+
+Observed:
+IoU ≈ 0.36–0.39  
+F1 ≈ 0.43–0.48
+
+
+4. Per-Class Behavior
+Strong performance on dominant classes (e.g., class 14 ≈ 0.85)
+Moderate performance on frequent classes (e.g., class 7 ≈ 0.55)
+Significant improvement in moderately frequent class (class 21 ≈ 0.90)
+No meaningful learning for rare classes (still ≈ 0 accuracy)
+
+
+5. Key Observation
+Weighted Focal Loss improves moderately frequent classes but does not improve rare classes.
+
+
+6. Interpretation
+Weighted Focal Loss combines two mechanisms:
+Class weighting → increases importance of underrepresented classes
+Focal modulation → emphasizes difficult samples
+
+However:
+The effectiveness of both mechanisms depends on sufficient exposure to each class during training.
+
+
+7. Behavior Under Patch-Based Training
+In a random patch-based sampling setup:
+The effective class distribution seen by the model varies across runs.
+
+As a result:
+Classes that appear more frequently in sampled patches are learned well
+Classes that appear rarely may not be learned at all
+
+
+8. Limitation
+Rare classes remain too underrepresented to contribute meaningful gradients
+Class weighting alone is insufficient under extreme imbalance
+Focal modulation prioritizes difficult samples within dominant classes
+
+Thus:
+Learning remains biased toward frequently observed classes.
+
+
+9. Critical Insight
+The effectiveness of Weighted Focal Loss is dependent on the sampling distribution observed during training.
+
+
+10. Conclusion
+Improves performance on dominant and moderately frequent classes
+Achieves strong global metrics
+Fails to learn extremely rare classes
+Weighted Focal Loss is insufficient for extreme class imbalance when rare classes are underrepresented in training samples.
+
+
+Key takeaway line (VERY IMPORTANT)
+Combining class weighting and focal modulation improves learning only when classes are sufficiently represented during training, highlighting the dependency of loss effectiveness on data sampling.

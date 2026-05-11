@@ -1,0 +1,89 @@
+🧾 Analysis: Generalized Dice Loss (GDL)
+
+
+1. Overall Performance
+The model trained with Generalized Dice Loss shows the following behavior:
+Epoch 1: F1=0.2929, IoU=0.2386
+Epoch 2: F1=0.4395, IoU=0.3691 (peak performance)
+Epoch 3–5: F1=0.0000, IoU=0.0000 (collapse)
+
+This indicates that GDL initially improves performance over standard Dice Loss but fails to maintain stable learning over time.
+
+
+2. Training Dynamics
+Unlike other loss functions, GDL exhibits a non-monotonic learning pattern:
+Early epochs show meaningful learning and improvement
+Later epochs show a complete collapse in performance
+
+This behavior suggests that:
+GDL initially learns useful representations but fails to converge to a stable optimum.
+
+
+3. Class-wise Behavior
+Final per-class results show:
+Class 7: Acc=1.0000
+All other classes: Acc=0.0000
+
+This indicates that the model converges to a trivial solution, predicting a single dominant class across all pixels.
+
+
+4. Effect of Generalized Dice Loss
+GDL modifies Dice Loss by introducing class weights:
+Weight ∝ 1 / class_size
+
+This aims to:
+Reduce dominance of large classes
+Increase importance of rare classes
+
+
+5. Observed Behavior
+Despite this reweighting, the model exhibits:
+Initial improvement in multi-class learning
+Gradual instability during optimization
+Final collapse to a single-class prediction
+
+This suggests that:
+GDL introduces competing gradient signals that destabilize training.
+
+
+6. Failure Mode
+The key failure mode observed is:
+Delayed collapse to a trivial solution
+
+Unlike Dice Loss, which collapses early, GDL:
+Learns meaningful features initially
+But eventually converges to a degenerate minimum
+
+
+7. Comparison with Other Loss Functions
+Loss	        Behavior
+Cross-Entropy	Stable, but biased toward dominant classes
+Weighted CE	    Improved rare class learning
+Focal Loss	    Strong performance on hard samples
+Dice Loss	    Immediate collapse to dominant class
+GDL	Initial     improvement → eventual collapse
+
+
+8. Key Insight
+The results demonstrate:
+Generalized Dice Loss improves early training by mitigating class imbalance, but suffers from optimization instability, leading to collapse in later epochs.
+
+
+9. Interpretation
+The collapse suggests the presence of a degenerate minimum, where:
+Predicting a single class yields a sufficiently low loss
+The optimizer prefers this simpler solution over learning complex class distributions
+
+This indicates that:
+Overlap-based objectives alone are insufficient for stable multi-class learning under extreme imbalance.
+
+
+10. Conclusion
+Generalized Dice Loss:
+Successfully mitigates early-stage class dominance
+Improves over standard Dice Loss initially
+Fails to maintain stable training
+Converges to trivial solutions in later epochs
+
+Thus:
+GDL is not reliable as a standalone loss for highly imbalanced multi-class segmentation tasks.

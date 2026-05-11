@@ -1,0 +1,41 @@
+Weighted Cross Entropy Loss
+
+To address class imbalance in semantic change detection, Weighted Cross Entropy (WCE) was implemented with a logarithmic weighting strategy.
+
+Weighting Strategy
+
+Instead of naive inverse-frequency weighting, which leads to unstable gradients, class weights were computed as:
+wi=1/log(count(i)+1.1)
+
+The weights were then normalized:
+wi=wi/mean(w)
+	​
+
+This approach ensured a smooth and bounded distribution of weights without requiring explicit clamping.
+
+Motivation
+
+The dataset exhibited extreme imbalance, with class frequencies differing by several orders of magnitude. Direct inverse weighting caused frequent classes to receive near-zero weights, effectively removing their contribution during training.
+
+Logarithmic scaling mitigates this issue by:
+
+Reducing sensitivity to extreme counts
+Preventing suppression of frequent classes
+Preserving relative importance of rare classes
+Maintaining stable gradient magnitudes
+Results
+
+
+Compared to standard Cross Entropy:
+
+Metric	    CE  	WCE
+Accuracy	0.691	0.728
+IoU	        0.261	0.296
+F1	        0.291	0.325
+
+
+Analysis:
+
+Weighted Cross Entropy improved both IoU and F1 score, indicating better performance on minority transition classes. The increase in accuracy further suggests that the model did not sacrifice performance on dominant classes.
+
+This demonstrates that logarithmic weighting provides an effective balance between frequent and rare classes, leading to improved semantic change detection performance.

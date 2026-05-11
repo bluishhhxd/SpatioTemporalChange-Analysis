@@ -1,0 +1,134 @@
+Good — now we switch gears from “fixing” to **documenting like a researcher**.
+What you write here will literally decide how strong your paper feels.
+
+I’ll give you something you can almost directly paste (and tweak wording later).
+
+---
+
+# 📝 **Weighted Cross Entropy (WCE) — Notes for Analysis**
+
+## **1. Motivation**
+
+Weighted Cross Entropy (WCE) was introduced to address **severe class imbalance** in the semantic change detection task.
+
+The dataset exhibits a highly skewed distribution of transition classes, where a small subset of transitions (e.g., no-change or dominant land-cover types) accounts for the vast majority of pixels, while many classes appear extremely rarely.
+
+To mitigate this imbalance, class weights were incorporated into the loss function to increase the contribution of rare classes during training.
+
+---
+
+## **2. Weighting Strategy**
+
+Class weights were computed based on inverse logarithmic scaling of class frequencies:
+
+[
+w_i = \frac{1}{\log(\text{count}_i + 1.1)}
+]
+
+The weights were then normalized:
+
+[
+w_i = \frac{w_i}{\text{mean}(w)}
+]
+
+### **Rationale**
+
+* Log scaling prevents extreme explosion of weights for very rare classes
+* Normalization ensures numerical stability during training
+* Avoids aggressive suppression of frequent classes (compared to inverse frequency)
+
+---
+
+## **3. Observations During Training**
+
+* Training remained stable across epochs
+* Loss decreased consistently
+* Accuracy improved steadily (~0.61 → ~0.76)
+* IoU and F1 scores showed moderate improvement
+
+This indicates that the model was successfully learning dominant patterns in the dataset.
+
+---
+
+## **4. Per-Class Performance Analysis (Key Insight)**
+
+Despite stable training behavior, per-class accuracy revealed:
+
+* High performance on dominant classes (e.g., classes with extremely high pixel counts)
+* Near-zero accuracy on most rare classes
+
+This indicates that:
+
+```text
+The model remained biased toward frequent classes despite weighting.
+```
+
+---
+
+## **5. Why WCE Was Insufficient**
+
+Although WCE increased the relative importance of rare classes, it did not sufficiently counteract the extreme imbalance in the dataset.
+
+### **Key Limitation**
+
+The imbalance in pixel counts spans several orders of magnitude:
+
+```text
+Frequent classes: ~10^9 – 10^10 pixels  
+Rare classes: ~10^4 – 10^6 pixels
+```
+
+Even after weighting:
+
+* Frequent classes still dominate the overall loss
+* Rare classes contribute negligibly to gradient updates
+
+---
+
+### **Mathematical Insight**
+
+Loss contribution is proportional to:
+
+[
+\text{Contribution}_i \propto \text{count}_i \times w_i
+]
+
+Thus:
+
+* Frequent classes still produce significantly larger gradients
+* Rare classes remain under-optimized
+
+---
+
+## **6. Effect on Model Behavior**
+
+The model converges to a solution where:
+
+* Predictions are dominated by high-frequency classes
+* Rare transitions are effectively ignored
+* Overall accuracy remains high due to class imbalance
+
+This leads to misleading performance metrics when evaluated globally.
+
+---
+
+## **7. Conclusion**
+
+Weighted Cross Entropy improves training stability but is insufficient for handling **extreme class imbalance** in semantic change detection tasks.
+
+It fails to:
+
+* Ensure adequate learning for rare classes
+* Balance gradient contributions effectively
+
+---
+
+## **8. Transition to Next Approach**
+
+Due to the limitations observed with WCE, more advanced loss functions were explored:
+
+* Focal Loss (to emphasize hard examples)
+* Dice-based losses (to improve overlap for minority classes)
+* Tversky variants (to explicitly control false positives/negatives)
+
+

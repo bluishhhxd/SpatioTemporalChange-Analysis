@@ -1,0 +1,105 @@
+🧾 Analysis: Weighted Cross-Entropy (WCE)
+
+
+1. Overall Performance
+The model trained using Weighted Cross-Entropy (WCE) achieves:
+Accuracy: ~0.90
+IoU: ~0.55–0.56
+F1 Score: ~0.63
+
+Compared to standard Cross-Entropy:
+IoU improves from ~0.46 → ~0.55
+F1 improves from ~0.53 → ~0.63
+
+👉 This indicates a significant improvement in segmentation quality, particularly in terms of overlap and balance between precision and recall.
+
+
+2. Effect on Class-wise Learning
+Unlike CE, which collapses to a single dominant class, WCE enables the model to learn multiple classes:
+
+Class 7: Acc = 0.75
+Class 14: Acc = 0.96
+Class 21: Acc = 0.79
+Class 13: Acc = 0.021 (previously 0)
+Class 35: Acc = 0.2997 (rare class)
+
+👉 Most importantly:
+Rare class (Class 35) is now learned with ~30% accuracy
+
+This represents a qualitative shift from CE, where all rare classes had zero accuracy.
+
+
+3. Impact of Class Weighting
+WCE modifies the loss as:
+Loss=w_c*CE(logits,target)
+
+where:
+wc∝1/log(frequency(c))
+
+This leads to:
+Increased gradient contribution from rare classes
+Reduced dominance of frequent classes
+More balanced optimization across the class distribution
+
+
+4. Reduction of Mode Collapse
+Under standard CE:
+Model → predicts only dominant class
+
+Under WCE:
+Model → distributes predictions across multiple classes
+
+Evidence:
+CE: only Class 7 learned
+WCE: multiple classes + rare class emergence
+
+👉 This shows that WCE mitigates mode collapse caused by imbalance.
+
+
+5. Trade-off Observed
+While WCE improves minority class learning, it introduces a trade-off:
+
+Slight reduction in dominant class accuracy:
+Class 7: 1.00 → 0.75
+
+This is expected because:
+The model is no longer over-optimizing for the majority class
+It redistributes capacity toward underrepresented classes
+
+
+6. Limitations of WCE
+Despite improvements, WCE does not fully solve the imbalance problem:
+Many rare classes still have 0 accuracy
+Extremely low-frequency transitions remain under-learned
+Learning remains biased toward moderately frequent classes
+
+This suggests:
+WCE improves but does not fully overcome long-tail imbalance
+
+
+7. Key Insight
+The results demonstrate:
+Weighted Cross-Entropy significantly improves representation of minority classes but is insufficient for complete long-tail learning.
+
+Specifically:
+Enables emergence of rare class predictions
+Improves IoU and F1 substantially
+Reduces dominance of frequent classes
+Still struggles with extremely rare transitions
+
+
+8. Comparison with Cross-Entropy
+Metric	            CE	    WCE
+Accuracy	        ~0.90	~0.90
+IoU	                ~0.46	~0.55
+F1	                ~0.53	~0.63
+Rare class learning	❌ None	✅ Partial
+
+
+9. Conclusion
+Weighted Cross-Entropy provides a strong improvement over standard Cross-Entropy in imbalanced semantic change detection:
+It transforms the model from a single-class predictor into a multi-class learner
+It enables non-zero learning of rare transitions
+It significantly improves segmentation quality metrics
+
+However, the persistence of zero-accuracy classes indicates that additional strategies (e.g., focal loss, sampling methods, or hybrid losses) may be required for fully addressing extreme imbalance.

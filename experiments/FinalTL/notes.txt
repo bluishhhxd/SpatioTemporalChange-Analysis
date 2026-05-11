@@ -1,0 +1,80 @@
+🧾 Analysis: Tversky Loss
+
+
+1. Overall Performance
+The model trained with Tversky Loss achieved:
+Epoch 1: F1=0.2500, IU=0.2163
+Epoch 2: F1=0.4565, IoU=0.3893 (peak performance)
+Epoch 3: F1=0.4547, IoU=0.3911
+
+Compared to Dice and Jaccard Loss, Tversky demonstrates a significant improvement in global metrics and more stable convergence behavior.
+
+
+2. Training Dynamics
+The training process shows:
+Rapid improvement between Epoch 1 and Epoch 2
+Stable performance thereafter
+No late-stage collapse (unlike Generalized Dice Loss)
+
+This indicates that Tversky Loss provides more stable optimization compared to other overlap-based losses.
+
+
+3. Class-wise Behavior
+Per-class evaluation reveals:
+Class 7: Acc=1.0000
+All other classes: Acc=0.0000
+This indicates that the model converges to a single-class prediction strategy, assigning all pixels to one dominant class.
+
+
+4. Effect of Tversky Loss
+Tversky Loss is defined as:
+Tversky=TP/(TP+α·FP+β·FN)
+It introduces asymmetric control over:
+False Positives (FP) via α
+False Negatives (FN) via β
+
+This allows tuning the loss toward specific error types.
+
+
+5. Observed Behavior
+Despite this flexibility, the model exhibits:
+Improved global metrics
+Stable convergence
+Continued bias toward the dominant class
+
+This suggests that:
+Adjusting FP/FN penalties improves optimization behavior,but does not enforce learning of minority classes.
+
+
+6. Failure Mode
+The dominant failure remains:
+Convergence to a trivial dominant-class solution
+Even with asymmetric weighting, the model prefers:
+Maximizing overlap with the largest class
+Ignoring minority classes
+
+
+7. Comparison with Other Overlap Losses
+LossBehaviorDice LossImmediate collapseJaccard LossClean collapseGeneralized Dice LossDelayed collapseTversky LossStable but trivial solution
+Tversky improves stability but does not fundamentally change the outcome.
+
+
+8. Key Insight
+Tversky Loss improves training stability and overall metrics, but fails to prevent dominant-class bias in highly imbalanced multi-class segmentation tasks.
+
+
+9. Interpretation
+The results indicate that:
+Overlap-based losses, even with tunable parameters,are insufficient to address extreme class imbalance.
+The model continues to favor simpler solutions that minimize loss without learning meaningful class distinctions.
+
+
+10. Conclusion
+Tversky Loss:
+Improves over Dice and Jaccard in terms of stability
+Achieves higher global metrics
+Does not learn minority classes
+Still converges to trivial solutions
+
+Thus:
+Tversky Loss is not sufficient as a standalone approachfor highly imbalanced multi-class segmentation.

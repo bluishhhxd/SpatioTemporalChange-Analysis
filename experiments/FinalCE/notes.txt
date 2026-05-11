@@ -1,0 +1,65 @@
+🧾 Baseline Analysis: Cross-Entropy Loss (CE)
+
+
+1. Overall Performance
+The model trained using standard Cross-Entropy Loss achieves:
+Accuracy: ~0.90
+IoU: ~0.46
+F1 Score: ~0.53
+
+These values indicate that the model is able to learn dominant patterns in the dataset and converges stably within a few epochs. The decrease in loss and increase in accuracy between epochs confirm that optimization is functioning correctly.
+However, these aggregate metrics are misleading in the presence of severe class imbalance, as they are dominated by the most frequent classes.
+
+
+2. Class-wise Performance
+A detailed per-class analysis reveals a highly skewed learning behavior:
+
+Class 7: Acc = 1.0000 (dominant class)
+All other classes: Acc = 0.0000
+
+Despite many classes having non-zero pixel counts (e.g., Class 14 with ~1.7B pixels, Class 21 with ~178M pixels, and several rare classes with thousands to millions of pixels), the model fails to correctly predict any of them.
+This demonstrates that the model effectively collapses to predicting a single dominant class.
+
+
+3. Impact of Dataset Imbalance
+The dataset exhibits extreme imbalance:
+Frequent classes: billions of pixels
+Rare classes: as low as ~10⁵ pixels
+
+This leads to a situation where:
+Loss contribution ∝ class frequency
+
+As a result:
+Gradients are overwhelmingly dominated by frequent classes
+Rare classes contribute negligibly to parameter updates
+The model minimizes loss by optimizing only dominant transitions
+
+
+4. Failure Mode of Cross-Entropy
+The observed behavior is a classic failure mode of standard Cross-Entropy under long-tailed distributions:
+The model converges to a mode-seeking solution
+It prioritizes minimizing global loss rather than learning minority classes
+It effectively ignores rare transitions entirely
+
+Even though rare classes are present in the training set, they are:
+underrepresented at the patch level
+underweighted in the loss function
+
+Thus, the model receives insufficient signal to learn them.
+
+
+5. Key Insight
+
+The results clearly demonstrate:
+Standard Cross-Entropy Loss is insufficient for semantic change detection under severe class imbalance.
+
+Specifically:
+High overall accuracy does not imply meaningful learning
+The model exhibits zero recall for minority classes
+CE fails to capture the long-tail distribution of transitions
+6. Role as Baseline
+
+This experiment establishes a strong baseline:
+Confirms correct implementation and training stability
+Highlights the imbalance problem explicitly
+Provides a reference point for evaluating alternative loss functions

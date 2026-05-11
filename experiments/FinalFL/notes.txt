@@ -1,0 +1,89 @@
+🧾 Analysis: Focal Loss (FL)
+
+
+1. Overall Performance
+The model trained using Focal Loss (FL) achieves:
+Accuracy: ~0.91
+IoU: ~0.61
+F1 Score: ~0.67
+
+Compared to previous loss functions:
+CE → F1 ~0.53
+WCE → F1 ~0.63
+FL → F1 ~0.67 (highest)
+
+This indicates that Focal Loss significantly improves overall segmentation quality, particularly in terms of IoU and F1 score.
+
+
+2. Class-wise Performance
+Unlike Cross-Entropy, which collapses to a single dominant class, and Weighted Cross-Entropy, which partially recovers rare classes, Focal Loss exhibits a distinct behavior:
+Class 7: Acc ≈ 0.73
+Class 13: Acc ≈ 0.58
+Other classes: mostly 0
+
+A key observation is the strong learning of Class 13, which was previously:
+CE → 0.0000
+WCE → 0.0210
+FL → 0.5792
+
+This represents a substantial improvement for this class.
+
+
+3. Effect of Focal Loss
+Focal Loss modifies the standard cross-entropy objective as:
+Loss=−((1−pt)^γ)*log(pt)
+
+where:
+pt is the predicted probability for the true class
+γ controls the strength of focusing
+
+This formulation:
+Down-weights easy, well-classified examples
+Emphasizes hard, misclassified examples
+
+
+4. Learning Behavior
+The results show that Focal Loss:
+Reduces dominance of easy and frequent classes
+Focuses learning on difficult regions
+Improves performance on moderately frequent but hard-to-learn classes
+
+However:
+It does not significantly improve extremely rare classes
+Classes with very low frequency remain unlearned
+5. Comparison with Other Loss Functions
+
+Compared to Cross-Entropy:
+Avoids collapse to a single dominant class
+Improves IoU and F1 substantially
+Enables learning of additional classes (e.g., Class 13)
+
+Compared to Weighted Cross-Entropy:
+Provides better overall segmentation quality
+Strongly improves learning of difficult classes
+Fails to retain improvements for extremely rare classes (e.g., Class 35)
+
+
+6. Key Insight
+The results demonstrate:
+Focal Loss improves performance by emphasizing hard examples rather than explicitly addressing class imbalance.
+
+As a result:
+It enhances learning for classes that are difficult to predict
+It does not sufficiently compensate for extremely low-frequency classes
+7. Limitations
+
+Despite strong improvements:
+Many rare classes still have zero accuracy
+Extremely low-frequency transitions remain underrepresented
+Focal Loss alone is insufficient to fully address long-tail imbalance
+
+
+8. Conclusion
+Focal Loss provides a strong improvement over both Cross-Entropy and Weighted Cross-Entropy in terms of overall segmentation performance:
+Achieves the highest IoU and F1 scores
+Successfully learns difficult intermediate classes
+Reduces bias toward dominant classes
+
+However, its inability to capture extremely rare classes indicates that:
+Explicit class reweighting or hybrid approaches may be required for full imbalance handling.

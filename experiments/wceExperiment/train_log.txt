@@ -1,0 +1,43 @@
+Training Log - wceExperiment
+
+[20:28:41] Epoch 1 | Loss: 0.4855 | Acc: 0.8863 | IoU: 0.5465 | F1: 0.6268
+[20:39:44] Epoch 2 | Loss: 0.3485 | Acc: 0.8925 | IoU: 0.5259 | F1: 0.5993
+[20:49:55] Epoch 3 | Loss: 0.3206 | Acc: 0.9028 | IoU: 0.5341 | F1: 0.6042
+
+Per-class Accuracy:
+Class 0: Acc=0.0000, Count=0
+Class 1: Acc=0.0000, Count=0
+Class 2: Acc=0.0000, Count=0
+Class 3: Acc=0.0000, Count=0
+Class 4: Acc=0.0000, Count=0
+Class 5: Acc=0.0000, Count=0
+Class 6: Acc=0.0000, Count=0
+Class 7: Acc=0.7729, Count=2240649984
+Class 8: Acc=0.0000, Count=2471718
+Class 9: Acc=0.0000, Count=0
+Class 10: Acc=0.0000, Count=259114
+Class 11: Acc=0.0000, Count=234707
+Class 12: Acc=0.0000, Count=0
+Class 13: Acc=0.0076, Count=125565376
+Class 14: Acc=0.9536, Count=12377824256
+Class 15: Acc=0.0000, Count=9224287
+Class 16: Acc=0.0000, Count=9805735
+Class 17: Acc=0.0000, Count=21175308
+Class 18: Acc=0.0000, Count=0
+Class 19: Acc=0.0000, Count=3086727
+Class 20: Acc=0.0000, Count=468938
+Class 21: Acc=0.8570, Count=1755020288
+Class 22: Acc=0.0000, Count=0
+Class 23: Acc=0.0000, Count=0
+Class 24: Acc=0.0000, Count=0
+Class 25: Acc=0.0000, Count=0
+Class 26: Acc=0.0000, Count=0
+Class 27: Acc=0.0000, Count=0
+Class 28: Acc=0.0000, Count=0
+Class 29: Acc=0.0000, Count=0
+Class 30: Acc=0.0000, Count=0
+Class 31: Acc=0.0000, Count=339103
+Class 32: Acc=0.0000, Count=1227460
+Class 33: Acc=0.0000, Count=0
+Class 34: Acc=0.0000, Count=1196858
+Class 35: Acc=0.1655, Count=122995472

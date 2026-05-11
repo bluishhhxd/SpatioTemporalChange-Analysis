@@ -1,0 +1,26 @@
+Cross Entropy Loss (Baseline)
+
+Cross Entropy Loss was used as the baseline objective for the semantic change detection task. In this formulation, each pixel is treated independently and assigned to one of 36 transition classes representing land cover changes between 2006 and 2012.
+
+The loss function is defined as:
+
+L=−∑Y(c)log(p(c))
+where y is the ground truth label and p is the predicted probability for class c.
+
+In our implementation, pixels labeled as 255 (invalid or no-information regions) were excluded using an ignore mask.
+
+Observations
+
+The model trained with Cross Entropy achieved:
+
+Accuracy: 0.69
+IoU: 0.26
+F1 Score: 0.29
+
+The relatively high accuracy indicates that the model successfully learned dominant patterns in the dataset. However, the lower IoU and F1 scores suggest poor performance on minority classes, particularly rare land-cover transitions.
+
+Interpretation
+
+This behavior is expected due to severe class imbalance in the dataset. Most pixels correspond to "no change" transitions, causing the model to favor majority classes. As a result, Cross Entropy Loss does not sufficiently penalize errors on rare but important change classes.
+
+Thus, while Cross Entropy provides a stable baseline, it fails to capture meaningful semantic changes effectively in imbalanced settings.

@@ -1,0 +1,4 @@
+Final Loss: 0.0011663671548736128
+Final Accuracy: 0.0
+Final IoU: 0.0
+Final F1: 0.0

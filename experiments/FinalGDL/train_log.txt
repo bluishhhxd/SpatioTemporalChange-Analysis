@@ -1,0 +1,45 @@
+Training Log - FinalgdlNEW
+
+[00:07:59] Epoch 1 | Loss: 0.2246 | Acc: 0.6330 | IoU: 0.2386 | F1: 0.2929
+[00:33:09] Epoch 2 | Loss: 0.0013 | Acc: 0.7807 | IoU: 0.3691 | F1: 0.4395
+[00:57:41] Epoch 3 | Loss: 0.0011 | Acc: 0.0000 | IoU: 0.0000 | F1: 0.0000
+[01:11:11] Epoch 4 | Loss: 0.0012 | Acc: 0.0000 | IoU: 0.0000 | F1: 0.0000
+[01:21:02] Epoch 5 | Loss: 0.0012 | Acc: 0.0000 | IoU: 0.0000 | F1: 0.0000
+
+Per-class Accuracy:
+Class 0: Acc=0.0000, Count=0W
+Class 1: Acc=0.0000, Count=0
+Class 2: Acc=0.0000, Count=0
+Class 3: Acc=0.0000, Count=0
+Class 4: Acc=0.0000, Count=0
+Class 5: Acc=0.0000, Count=0
+Class 6: Acc=0.0000, Count=0
+Class 7: Acc=1.0000, Count=342749952
+Class 8: Acc=0.0000, Count=378603
+Class 9: Acc=0.0000, Count=0
+Class 10: Acc=0.0000, Count=259114
+Class 11: Acc=0.0000, Count=234707
+Class 12: Acc=0.0000, Count=0
+Class 13: Acc=0.0000, Count=17084440
+Class 14: Acc=0.0000, Count=1792855808
+Class 15: Acc=0.0000, Count=2155733
+Class 16: Acc=0.0000, Count=6268924
+Class 17: Acc=0.0000, Count=10509836
+Class 18: Acc=0.0000, Count=0
+Class 19: Acc=0.0000, Count=798832
+Class 20: Acc=0.0000, Count=408347
+Class 21: Acc=0.0000, Count=178557424
+Class 22: Acc=0.0000, Count=0
+Class 23: Acc=0.0000, Count=0
+Class 24: Acc=0.0000, Count=0
+Class 25: Acc=0.0000, Count=0
+Class 26: Acc=0.0000, Count=0
+Class 27: Acc=0.0000, Count=0
+Class 28: Acc=0.0000, Count=0
+Class 29: Acc=0.0000, Count=0
+Class 30: Acc=0.0000, Count=0
+Class 31: Acc=0.0000, Count=96559
+Class 32: Acc=0.0000, Count=494641
+Class 33: Acc=0.0000, Count=0
+Class 34: Acc=0.0000, Count=228635
+Class 35: Acc=0.0000, Count=42114272

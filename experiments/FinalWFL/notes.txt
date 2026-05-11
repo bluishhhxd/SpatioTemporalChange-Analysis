@@ -1,0 +1,112 @@
+🧾 Analysis: Weighted Focal Loss (WFL)
+
+
+1. Overall Performance
+The model trained using Weighted Focal Loss (WFL) achieves:
+Accuracy: ~0.91
+IoU: ~0.60
+F1 Score: ~0.67 (best at Epoch 2)
+
+Compared to previous loss functions:
+CE → F1 ~0.53
+WCE → F1 ~0.63
+FL → F1 ~0.67
+WFL → F1 ~0.67 (comparable to FL)
+
+This indicates that WFL maintains strong overall segmentation performance.
+
+
+2. Class-wise Performance
+The per-class results show an unexpected behavior:
+Class 7: Acc ≈ 0.9996
+Class 13: Acc ≈ 0.0027
+Class 14: Acc = 0.0000
+Most other classes: 0.0000
+
+A notable observation is that Class 14, which was previously one of the most dominant classes, is no longer learned.
+
+
+3. Effect of Weighted Focal Loss
+WFL combines two mechanisms:
+Loss=α_c*(1−pt)^γ*log(pt)
+
+where:
+α_c introduces class weighting (as in WCE)
+(1−pt)^γ emphasizes hard examples (as in FL)
+
+This results in:
+Down-weighting of frequent classes
+Suppression of easy examples
+Increased focus on difficult and underrepresented samples
+
+
+4. Observed Learning Behavior
+The combined effect of weighting and focal modulation leads to:
+Strong suppression of dominant classes
+Reduced learning signal for easy predictions
+Concentration of learning on a limited subset of classes
+
+In particular:
+The model retains high accuracy for Class 7
+However, it fails to learn other major classes such as Class 14
+Rare classes are also not effectively recovered
+
+
+5. Failure Mode
+Unlike WCE and FL, WFL exhibits a distinct failure mode:
+Over-suppression of dominant classes
+
+Because:
+Class weights reduce the importance of frequent classes
+Focal loss further reduces the contribution of easy predictions
+
+This results in:
+Insufficient gradient signal for dominant classes
+Collapse toward predicting a narrow subset of classes
+
+
+6. Metric Interpretation
+
+Despite strong IoU and F1 scores, class-wise results reveal:
+Limited class diversity in predictions
+High performance concentrated on a small number of classes
+
+This suggests that:
+Aggregate metrics may overestimate performance under WFL
+as they are influenced by the subset of predicted classes.
+
+
+7. Comparison with Other Loss Functions
+Compared to Cross-Entropy:
+Avoids trivial collapse to a single dominant class
+Maintains higher IoU and F1
+
+Compared to Weighted Cross-Entropy:
+Fails to recover rare classes effectively
+Suppresses even moderately frequent classes
+
+Compared to Focal Loss:
+Does not retain strong learning of hard classes (e.g., Class 13)
+Introduces instability due to combined weighting effects
+
+
+8. Key Insight
+The results demonstrate:
+Weighted Focal Loss may over-correct class imbalance by simultaneously down-weighting frequent classes and suppressing easy samples, leading to under-learning of even dominant classes.
+
+
+9. Limitations
+Loss of dominant class representation
+No meaningful recovery of rare classes
+Reduced class diversity in predictions
+Sensitivity to hyperparameters (γ and α)
+
+
+10. Conclusion
+Weighted Focal Loss provides strong overall metrics but introduces instability in class-wise learning:
+Maintains competitive IoU and F1 scores
+Fails to learn key dominant and rare classes
+Demonstrates over-suppression effects due to combined mechanisms
+
+This suggests that:
+Careful calibration is required when combining class weighting with focal modulation, as naive combination may degrade class-wise performance.

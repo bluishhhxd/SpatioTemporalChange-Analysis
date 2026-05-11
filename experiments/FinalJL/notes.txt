@@ -1,0 +1,80 @@
+🧾 Analysis: Jaccard Loss (IoU Loss)
+
+
+1. Overall Performance
+The model trained with Jaccard Loss achieved:
+Epoch 1: F1=0.2659, IoU=0.2317
+Epoch 2: F1=0.2506, IoU=0.2194
+Epoch 3: F1=0.2693, IoU=0.2405
+
+Although the overall metrics appear moderate, they remain relatively stagnant across epochs, indicating limited learning progression.
+
+
+2. Class-wise Behavior
+Per-class evaluation reveals:
+Class 14: Acc=1.0000
+All other classes: Acc=0.0000
+
+This demonstrates that the model converges to a single-class prediction, assigning every pixel to the most dominant class in the dataset.
+
+
+3. Training Dynamics
+The training process exhibits:
+Rapid stabilization of loss values
+Minimal improvement across epochs
+No recovery from class imbalance
+
+This indicates that the model quickly reaches a locally optimal but trivial solution, without exploring more complex multi-class representations.
+
+
+4. Effect of Jaccard Loss
+Jaccard Loss is defined as:
+IoU=intersection/union
+Loss=1-IoU
+
+It directly optimizes the overlap between predicted and ground-truth regions.
+
+However, it does not incorporate any explicit class balancing mechanism.
+
+
+5. Observed Failure Mode
+The dominant failure observed is:
+Collapse to a single dominant class
+
+In highly imbalanced datasets:
+Large classes dominate both intersection and union
+Rare classes contribute minimally to the loss
+
+Thus, predicting only the dominant class still yields a relatively low loss.
+
+
+6. Comparison with Dice Loss
+Property	    Dice Loss	                Jaccard Loss
+Optimization	Softer overlap	            Stricter overlap
+Behavior	    Collapse	                Collapse
+Stability	    Slightly unstable	        More stable but trivial
+Outcome	        Dominant class prediction	Dominant class prediction
+
+Both losses fail to handle extreme class imbalance, despite optimizing region-level overlap.
+
+
+7. Key Insight
+Jaccard Loss, although a stricter overlap-based objective than Dice Loss, is inherently biased toward dominant classes and fails to learn minority classes in highly imbalanced settings.
+
+
+8. Interpretation
+The results indicate that:
+Overlap-based objectives alone are insufficient for multi-class segmentation under severe imbalance.
+
+The optimizer favors simpler solutions that maximize overlap for dominant classes rather than learning fine-grained class distinctions.
+
+
+9. Conclusion
+Jaccard Loss:
+Provides stable but limited training
+Fails to incorporate class imbalance handling
+Converges to trivial dominant-class solutions
+Does not improve over Dice Loss in this setting
+
+Thus:
+Jaccard Loss is not suitable as a standalone loss for highly imbalanced multi-class segmentation tasks.
