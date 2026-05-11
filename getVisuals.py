@@ -96,18 +96,6 @@ print(f"Test Images : {len(test_idx)}")
 # TRANSITION CLASS ANALYSIS
 # ============================================================
 
-# VERY IMPORTANT
-# Because your dataset is EXTREMELY imbalanced,
-# random sampling is useless for visualization.
-#
-# We intelligently search for:
-# - rare transition images
-# - difficult samples
-# - non-dominant patches
-#
-# Otherwise every image becomes:
-# "Artificial -> Artificial"
-# and paper quality dies.
 
 # ============================================================
 
@@ -215,8 +203,7 @@ def find_interesting_patch():
 
             dominant_ratio = counts.max() / counts.sum()
 
-            # IMPORTANT
-            # reject ultra-dominant patches
+
 
             if dominant_ratio > 0.93:
                 continue
@@ -356,9 +343,6 @@ def generate_class_distribution():
 
     counts = np.zeros(36,dtype=np.int64)
 
-    # VERY IMPORTANT
-    # SAMPLE CAREFULLY
-    # because full sweep is huge
 
     chosen = random.sample(
         train_idx,
@@ -449,7 +433,7 @@ def generate_metric_comparison():
         "WFL"
     ]
 
-    # REPLACE WITH YOUR REAL FINAL VALUES
+
     f1 = [
     0.53,   # CE
     0.63,   # WCE
